@@ -26,10 +26,16 @@ func main() {
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 
+	if r.Method != "GET" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
 	ouput, err := json.MarshalIndent(r, "", "  ")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
 	fmt.Fprintf(w, "%s", ouput)
 }
 
